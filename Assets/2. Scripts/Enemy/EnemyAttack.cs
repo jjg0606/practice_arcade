@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
 {
+    public int damage = 1;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,5 +25,6 @@ public class EnemyAttack : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D coll)
     {
         Debug.Log("damaged");
+        coll.gameObject.GetComponent<PlayerDamaged>().prohp-=damage;
     }
 }

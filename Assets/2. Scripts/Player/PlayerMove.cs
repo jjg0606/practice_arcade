@@ -15,16 +15,21 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody2D rigidb;
     private Rigidbody2D movingBlock;
     private Animator anim;
+    private AudioSource audiosource;
+
+    public AudioClip jumpSFX;
     // Start is called before the first frame update
     void Start()
     {
         rigidb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         tr = GetComponent<Transform>();
+        audiosource = GetComponent<AudioSource>();
     }
 
+    
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         float axis = Input.GetAxis("Horizontal");
 
@@ -47,8 +52,9 @@ public class PlayerMove : MonoBehaviour
                 speedInGround += movingBlock.velocity;
             }
             rigidb.velocity = speedInGround;
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space)) // 점프
             {
+                audiosource.PlayOneShot(jumpSFX, 1.0f);
                 rigidb.AddForce(new Vector2(0, 400));
                 anim.SetTrigger(animIsJump);
             }
@@ -58,6 +64,7 @@ public class PlayerMove : MonoBehaviour
             
             if (Input.GetKeyDown(KeyCode.Space)) // 공중에서 점프
             {
+                audiosource.PlayOneShot(jumpSFX, 1.0f);
                 rigidb.AddForce(new Vector2(0, 200));
                 anim.SetTrigger(animIsJump);
             }
