@@ -10,7 +10,7 @@ public class EnemyDamaged : MonoBehaviour
     public float curHP;
     private AudioSource audiosource;
     private Rigidbody2D rigb;
-    private bool isInvincible = false;
+    public bool isInvincible = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -54,6 +54,6 @@ public class EnemyDamaged : MonoBehaviour
         }
         yield return new WaitForSeconds(0.4f);
 
-        isInvincible = false;
+        yield return isInvincible = false;
     }
 }

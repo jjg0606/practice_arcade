@@ -22,9 +22,18 @@ public class EnemyAttack : MonoBehaviour
         
     }
 
+    private void OnCollisionStay2D(Collision2D coll)
+    {
+        if (coll.gameObject.tag == "PLAYER")
+        {
+            Vector2 direction = new Vector2();
+            direction.x = coll.gameObject.transform.position.x - transform.position.x;
+            coll.gameObject.GetComponent<PlayerDamaged>().DamageThis(damage, direction.normalized * 8);
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D coll)
     {
-        Debug.Log("damaged");
-        coll.gameObject.GetComponent<PlayerDamaged>().prohp-=damage;
+
     }
 }
