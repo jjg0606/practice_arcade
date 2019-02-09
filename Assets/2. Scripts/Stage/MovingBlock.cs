@@ -4,35 +4,45 @@ using UnityEngine;
 
 public enum Direction
 {
-    RIGHT,LEFT
+    RIGHT,LEFT,UP,DOWN
 };
 
 public class MovingBlock : MonoBehaviour
 {
-    public float leftThreshold;
-    public float rightThreshold;
-    [SerializeField]
-    Direction firstDirection;
+
+    public Direction firstDirection;
     public float movingSpeed;
 
-    private Transform tr;
     private Rigidbody2D rb2;
+    private Vector2 movingVec;
     private void Start()
     {
-        tr = GetComponent<Transform>();
+
         rb2 = GetComponent<Rigidbody2D>();
-        rb2.velocity = new Vector2(Mathf.Pow(-1, (int)firstDirection) * movingSpeed, 0);
+        switch (firstDirection)
+        {
+            case Direction.LEFT:
+                movingVec = Vector2.left;
+                break;
+            case Direction.RIGHT:
+                movingVec = Vector2.right;
+                break;
+            case Direction.UP:
+                movingVec = Vector2.up;
+                break;
+            case Direction.DOWN:
+                movingVec = Vector2.down;
+                break;
+        }
+        rb2.velocity = movingVec * movingSpeed;
     }
 
-    private void Update()
+    private void OnTriggerEnter2D(Collider2D coll)
     {
-        if(tr.position.x >rightThreshold)
+        if (coll.transform.tag == "BEACON")
         {
-            rb2.velocity = new Vector2(-movingSpeed,0);
+            movingVec = -movingVec;
+            rb2.velocity = movingVec * movingSpeed;
         }
-        else if(tr.position.x < leftThreshold)
-        {
-            rb2.velocity = new Vector2(movingSpeed, 0);
-        }   
     }
 }

@@ -7,20 +7,22 @@ public class CameraFollowing : MonoBehaviour
     private Transform tr;
     private Transform playerTr;
     private Vector3 setups;
+    private float cameraCali=1.5f;
 
     public float cameraDampingHorizen = 1.0f;
     public float cameraDampingVertical = 1.0f;
     [Header("Camera Outline")]
-    public float limitYdown;
-    public float limitYup;
-    public float limitXleft;
-    public float limitXright;
+    public Transform limitYdown;
+    public Transform limitYup;
+    public Transform limitXleft;
+    public Transform limitXright;
     // Start is called before the first frame update
     void Start()
     {
         tr = GetComponent<Transform>();
         playerTr = GameObject.FindGameObjectWithTag("PLAYER").GetComponent<Transform>();
         setups = new Vector3(0f, 0f, -10f);
+
     }
 
     // Update is called once per frame
@@ -35,24 +37,24 @@ public class CameraFollowing : MonoBehaviour
         var wantedX = playerTr.position.x;
         
         var currentY = tr.position.y;
-        var wantedY = playerTr.position.y;
+        var wantedY = playerTr.position.y+cameraCali;
 
-        if (wantedX < limitXleft)
+        if (wantedX < limitXleft.position.x)
         {
-            wantedX = limitXleft;
+            wantedX = limitXleft.position.x;
         }
-        else if (wantedX > limitXright)
+        else if (wantedX > limitXright.position.x)
         {
-            wantedX = limitXright;
+            wantedX = limitXright.position.x;
         }
 
-        if (wantedY < limitYdown)
+        if (wantedY < limitYdown.position.y)
         {
-            wantedY = limitYdown;
+            wantedY = limitYdown.position.y;
         }
-        else if(wantedY>limitYup)
+        else if(wantedY>limitYup.position.y)
         {
-            wantedY = limitYup;
+            wantedY = limitYup.position.y;
         }
         currentX = Mathf.Lerp(currentX, wantedX, cameraDampingHorizen * (float)Time.deltaTime);
         currentY = Mathf.Lerp(currentY, wantedY, cameraDampingVertical * (float)Time.deltaTime);

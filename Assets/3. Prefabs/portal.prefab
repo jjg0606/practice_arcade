@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3327834111036009925}
   - component: {fileID: 3327834111036009924}
   - component: {fileID: 6030466434597371829}
+  - component: {fileID: 577427464}
   m_Layer: 0
   m_Name: portal
   m_TagString: Untagged
@@ -27,13 +28,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3327834111036009927}
-  m_LocalRotation: {x: -0, y: -0, z: -0.10672369, w: 0.99428874}
+  m_LocalRotation: {x: 0, y: 0, z: -0.106723934, w: 0.99428874}
   m_LocalPosition: {x: 7.7987375, y: -5.583885, z: 0.1}
   m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -12.253}
 --- !u!212 &3327834111036009923
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -208,3 +209,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &577427464
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3327834111036009927}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 60c56bcfdf9874b4c83fa2ef9f172f5f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

@@ -9,8 +9,11 @@ public class PlayerMove : MonoBehaviour
 
     private readonly int animIsJump = Animator.StringToHash("IsJump");
     private readonly int animIsMoving = Animator.StringToHash("IsMoving");
+    private float lastLocationY;
+    private bool isInAir;
 
     private Vector2 speedInGround=new Vector2();
+    private float lastSpeedX=0.0f;
     private Transform tr;
     private Rigidbody2D rigidb;
     private Rigidbody2D movingBlock;
@@ -22,7 +25,9 @@ public class PlayerMove : MonoBehaviour
 
     public int jumpMaximum = 1;
     private int jumpCurrent = 0;
-    // Start is called before the first frame update
+
+    private PlayerState state;
+
     void Start()
     {
         rigidb = GetComponent<Rigidbody2D>();
@@ -30,6 +35,8 @@ public class PlayerMove : MonoBehaviour
         tr = GetComponent<Transform>();
         audiosource = GetComponent<AudioSource>();
         movingcali = Vector2.zero;
+        lastLocationY = tr.position.y;
+        state = GetComponent<PlayerState>();
     }
 
     public void plusCalivec(Vector2 cali)
@@ -40,8 +47,19 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (!state.isLiving)
+            return;
+
         float axis = Input.GetAxis("Horizontal");
         float jump = Input.GetAxis("Jump");
+        if((lastLocationY==tr.position.y)||(rigidb.velocity.y==0))
+        {
+            isInAir = false;
+        }
+        else
+        {
+            isInAir= true;
+        }
 
         { //보고있는 축에따라 바라보는 방향을 결정함
             if(axis <0)
@@ -54,7 +72,7 @@ public class PlayerMove : MonoBehaviour
             }
         } //보고있는 축에따라 바라보는 방향을 결정함
 
-        if (rigidb.velocity.y ==0.0f) // 지면에 있을 때
+        if (!isInAir) // 지면에 있을 때
         {
             speedInGround.Set(axis * speed, rigidb.velocity.y);
             jumpCurrent = 0;
@@ -66,7 +84,7 @@ public class PlayerMove : MonoBehaviour
             if (jump > 0 && bCanjump) // 점프
             {
                 audiosource.PlayOneShot(jumpSFX, 1.0f);
-                rigidb.AddForce(new Vector2(0, 400));
+                rigidb.AddForce(new Vector2(0, 300));
                 anim.SetTrigger(animIsJump);
                 bCanjump = false;
                 StartCoroutine(JumpCooling(0.5f));
@@ -84,7 +102,12 @@ public class PlayerMove : MonoBehaviour
                 StartCoroutine(JumpCooling(0.5f));
                 jumpCurrent++;
             }
+            if(Mathf.Abs(rigidb.velocity.x)<Mathf.Abs(speedInGround.x-lastSpeedX))
+            {
+                speedInGround.x = rigidb.velocity.x;
+            }            
             rigidb.velocity = new Vector2((speedInGround.x + axis * speedInAir), rigidb.velocity.y);
+            lastSpeedX = axis * speedInAir;
 
         }
 
@@ -98,8 +121,8 @@ public class PlayerMove : MonoBehaviour
                 anim.SetBool(animIsMoving, false);
             }
         }  // 움직이는 모션과 정지한 모션을 할당해줌
-
         rigidb.velocity += movingcali;
+        lastLocationY=tr.position.y;
     }
 
     IEnumerator JumpCooling(float waitsecond)

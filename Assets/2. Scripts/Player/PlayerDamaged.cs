@@ -7,11 +7,19 @@ using UnityEngine;
 public class PlayerDamaged : MonoBehaviour
 {
     public AudioClip damaged;
+    public AudioClip dead;
     private AudioSource audio;
     private PlayerMove playermove;
+    private Animator anim;
+    private readonly int animInvincible = Animator.StringToHash("isInvincible");
+    private readonly int animIsDead = Animator.StringToHash("isDead");
+    private readonly int animNewStart = Animator.StringToHash("newStart");
+    private PlayerState state;
 
     public delegate void ReflectHP(int hpleft);
+    public delegate void deleDead();
     public event ReflectHP drefHP;
+    public event deleDead edead;
     public int maxhp = 6;
     public int prohp
     {
@@ -23,6 +31,10 @@ public class PlayerDamaged : MonoBehaviour
         {
             currhp = value;
             drefHP(currhp);
+            if(currhp==0)
+            {
+                PlayerDead();
+            }
         }
     }
 
@@ -38,15 +50,26 @@ public class PlayerDamaged : MonoBehaviour
         prohp = maxhp;
         audio = GetComponent<AudioSource>();
         playermove = GetComponent<PlayerMove>();
+        anim = GetComponent<Animator>();
+        state = GetComponent<PlayerState>();
+    }
+
+    public void PlayerDead()
+    {
+        anim.SetTrigger(animIsDead);
+        state.isLiving = false;
+        audio.PlayOneShot(dead, 1.0f);
+        edead();
     }
 
     public void DamageThis(int damage,Vector2 direction)
     {
-        if(!isInvincible)
+        if(!isInvincible&&state.isLiving)
         {
             prohp -= damage;
             isInvincible = true;
             audio.PlayOneShot(damaged, 0.7f);
+            anim.SetBool(animInvincible, true);
             StartCoroutine(Invincible(direction));
         }
     }
@@ -58,5 +81,6 @@ public class PlayerDamaged : MonoBehaviour
         playermove.plusCalivec(-direction);
         yield return new WaitForSeconds(0.4f);
         yield return isInvincible = false;
+        anim.SetBool(animInvincible, false);
     }
 }

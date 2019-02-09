@@ -11,6 +11,7 @@ public class EnemyDamaged : MonoBehaviour
     private AudioSource audiosource;
     private Rigidbody2D rigb;
     public bool isInvincible = false;
+    public bool isStatic;
     // Start is called before the first frame update
     void Start()
     {
@@ -49,7 +50,10 @@ public class EnemyDamaged : MonoBehaviour
         Vector2 po = transform.position;
         for(int i =0;i<4;i++)
         {
-            rigb.MovePosition(Vector2.Lerp(po, po + new Vector2(direction.x, 0.0f), 0.25f * i));
+            if(rigb.isKinematic&&!isStatic)
+            {
+                rigb.MovePosition(Vector2.Lerp(po, po + new Vector2(direction.x, 0.0f), 0.25f * i));
+            }            
             yield return new WaitForSeconds(0.05f);
         }
         yield return new WaitForSeconds(0.4f);

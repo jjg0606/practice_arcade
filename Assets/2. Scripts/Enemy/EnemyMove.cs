@@ -4,26 +4,30 @@ using UnityEngine;
 
 public class EnemyMove : MonoBehaviour
 {
-    public enum EMoveDirection
-    {
-        LEFT,RIGHT
-    }
-
-    public EMoveDirection direction;
+    
+    public Direction direction;
     public float speed=1.0f;
     private Vector2 movingVec;
     private Rigidbody2D rb2;
     // Start is called before the first frame update
     void Start()
     {
-        if(direction==EMoveDirection.LEFT)
+        switch(direction)
         {
-            movingVec = Vector2.left;
+            case Direction.LEFT:
+                movingVec = Vector2.left;
+                break;
+            case Direction.RIGHT:
+                movingVec = Vector2.right;
+                break;
+            case Direction.UP:
+                movingVec = Vector2.up;
+                break;
+            case Direction.DOWN:
+                movingVec = Vector2.down;
+                break;
         }
-        else
-        {
-            movingVec = Vector2.right;
-        }
+
         rb2 = GetComponent<Rigidbody2D>();
         rb2.velocity = movingVec*speed;
         if (movingVec.x < 0)

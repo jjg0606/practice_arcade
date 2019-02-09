@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
+    private PlayerState state;
+
     public float damage;
     public GameObject attackEffect;
     public AudioSource audiosource;
@@ -20,11 +22,17 @@ public class PlayerAttack : MonoBehaviour
         audiosource = GetComponent<AudioSource>();
         anim = GetComponent<Animator>();
         boxcoll2d = GetComponents<BoxCollider2D>()[1];
+        state = GetComponent<PlayerState>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(!state.isLiving)
+        {
+            return;
+        }
+
         if(Input.GetKeyDown(KeyCode.Z))
         {
             if(!isAttackNow)

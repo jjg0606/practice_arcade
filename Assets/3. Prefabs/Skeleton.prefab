@@ -31,9 +31,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9223159297186074581}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.848763, y: -0.83, z: -0.7675781}
-  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_LocalScale: {x: 15, y: 15, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -152,11 +152,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d801ec0c994668647b939cb91f9841e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialHP: 4
+  initialHP: 1
   beingHit: {fileID: 8300000, guid: c125db4c3ff605d47be541663e74e1e2, type: 3}
   beingDead: {fileID: 8300000, guid: 48b3a6ec53d9bbb4aa97812fc7a31050, type: 3}
   curHP: 0
   isInvincible: 0
+  isStatic: 0
 --- !u!114 &9223159297186074582
 MonoBehaviour:
   m_ObjectHideFlags: 0

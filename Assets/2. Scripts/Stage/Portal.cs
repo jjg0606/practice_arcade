@@ -17,8 +17,8 @@ public class Portal : MonoBehaviour
 
     void Update()
     {
-        transform.Rotate(0, 0, 1);
-        if(trPlayer!=null&&Input.GetKeyDown(KeyCode.UpArrow)&&bPortalAvail)
+        //transform.Rotate(0, 0, 1000*Time.deltaTime);
+        if(trPlayer!=null&&Input.GetAxisRaw("Vertical")>0&&bPortalAvail)
         {
             trPlayer.position = connected.position;
             bPortalAvail = false;
